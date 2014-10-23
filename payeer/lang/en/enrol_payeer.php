@@ -1,5 +1,4 @@
 <?php
-
 $string['pluginname'] = 'Payeer';
 $string['pluginname_desc'] = 'This plugin lets you configure courses to be paid for using the Payeer payment gateway.';
 
