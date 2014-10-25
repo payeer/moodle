@@ -1,5 +1,4 @@
 <?php
-
 $string['pluginname'] = 'Payeer';
 $string['pluginname_desc'] = 'Плагин позволяет принимать оплаты курсов через Payeer.';
 
