@@ -132,7 +132,7 @@ if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 		$payeertx->success = 1;
         if (!$DB->update_record('enrol_payeer_transactions', $payeertx)) 
 		{
-            die('FAIL');
+            die($_POST['m_orderid'] . '|error');
         } 
 		else 
 		{
