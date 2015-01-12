@@ -10,11 +10,13 @@ if ($ADMIN->fulltree)
 	
 	$settings->add(new admin_setting_configtext('enrol_payeer/payeer_merchant_url', get_string('payeer_merchant_url', 'enrol_payeer'), '', '//payeer.com/merchant/'));
 	
-    $settings->add(new admin_setting_configtext('enrol_payeer/payeer_shop', get_string('payeer_shop', 'enrol_payeer'), '', '', PARAM_INT, 30));
+    $settings->add(new admin_setting_configtext('enrol_payeer/payeer_shop', get_string('payeer_shop', 'enrol_payeer'), '', ''));
 
     $settings->add(new admin_setting_configtext('enrol_payeer/payeer_key', get_string('payeer_key', 'enrol_payeer'), '', ''));
+	
+	$settings->add(new admin_setting_configtext('enrol_payeer/payeer_order_description', get_string('payeer_order_description', 'enrol_payeer'), '', ''));
 
-    $settings->add(new admin_setting_configcheckbox('enrol_payeer/payeer_log', get_string('payeer_log', 'enrol_payeer'), '', 0));
+    $settings->add(new admin_setting_configtext('enrol_payeer/payeer_log', get_string('payeer_log', 'enrol_payeer'), '', ''));
 
     $settings->add(new admin_setting_configtext('enrol_payeer/payeer_emailerr', get_string('payeer_emailerr', 'enrol_payeer'), '', '', PARAM_EMAIL));
 
@@ -26,7 +28,8 @@ if ($ADMIN->fulltree)
         ENROL_EXT_REMOVED_UNENROL        => get_string('extremovedunenrol', 'enrol'),
     );
 	
-    $settings->add(new admin_setting_configselect('enrol_payeer/expiredaction', get_string('expiredaction', 'enrol_payeer'), get_string('expiredaction_help', 'enrol_payeer'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
+    $settings->add(new admin_setting_configselect('enrol_payeer/expiredaction', 
+		get_string('expiredaction', 'enrol_payeer'), get_string('expiredaction_help', 'enrol_payeer'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
 	
     $settings->add(new admin_setting_heading('enrol_payeer_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
@@ -43,10 +46,8 @@ if ($ADMIN->fulltree)
 
     $payeercurrencies = array(
 							  'RUB' => 'Russian Ruble',
-                              'CAD' => 'Canadian Dollars',
                               'EUR' => 'Euros',
-                              'GBP' => 'British Pounds',
-							  'USD' => 'US Dollars',
+							  'USD' => 'US Dollars'
                              );
     $settings->add(new admin_setting_configselect('enrol_payeer/currency', get_string('currency', 'enrol_payeer'), '', 'RUB', $payeercurrencies));
 

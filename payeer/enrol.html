@@ -1,20 +1,20 @@
 <div align="center">
 
-<p><?php print_string("paymentrequired") ?></p>
+<p><?php print_string("paymentrequired"); ?></p>
 <p><b><?php echo $instancename; ?></b></p>
 <p><b><?php echo get_string("cost").": {$instance->currency} {$cost}"; ?></b></p>
-<p><img alt="<?php print_string('payeeraccepted', 'enrol_payeer') ?>" src="<?php echo $CFG->wwwroot.'/enrol/payeer/payeer.png'; ?>" /></p>
-<p><?php print_string("paymentinstant") ?></p>
+<p><img alt="<?php print_string('payeeraccepted', 'enrol_payeer'); ?>" src="<?php echo $CFG->wwwroot.'/enrol/payeer/payeer.png'; ?>" /></p>
+<p><?php print_string("paymentinstant"); ?></p>
 </div>
 
-<form action="<?php echo $CFG->wwwroot.'/enrol/payeer/pay.php'?>" method="post" class="mform">
+<form action="<?php echo $CFG->wwwroot.'/enrol/payeer/pay.php'; ?>" method="post" class="mform">
 
-<input type="hidden" name="id" value="<?php p($instance->id)?>" />
+<input type="hidden" name="id" value="<?php p($instance->id); ?>" />
 	  
 <input type="hidden" name="course_id" value="<?php echo $course->id;  ?>" />
 
 <div align="center">
-	<input type="submit" value="<?php print_string('sendpaymentbutton', 'enrol_payeer') ?>" />
+	<input type="submit" value="<?php print_string('sendpaymentbutton', 'enrol_payeer'); ?>" />
 </div>
 
 </form>

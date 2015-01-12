@@ -9,10 +9,8 @@ class enrol_payeer_plugin extends enrol_plugin
         $this->load_config();
         $this->recognised_currencies = array(
 			'RUB',
-            'CAD',
             'EUR',
-            'GBP',
-            'USD',
+            'USD'
         );
         $this->payeer_url = 'https://www.payeer.com/';
     }

@@ -3,38 +3,15 @@
 require("../../config.php");
 require_once("$CFG->dirroot/enrol/payeer/lib.php");
 
-$id = required_param('m_orderid', PARAM_INT);
-
-$payeertx = $DB->get_record('enrol_payeer_transactions', array('id' =>required_param('m_orderid', PARAM_INT)));
-
-$plugin_instance = $DB->get_record("enrol", array("id"=>$payeertx->instanceid, "status"=>0));
-
-$plugin = enrol_get_plugin('payeer');
-
-if ($plugin_instance->enrolperiod) 
-{
-	$timestart = time();
-	$timeend   = $timestart + $plugin_instance->enrolperiod;
-} 
-else 
-{
-	$timestart = 0;
-	$timeend   = 0;
-}
-
-$plugin->enrol_user($plugin_instance, $payeertx->userid, $plugin_instance->roleid, $timestart, $timeend);
-unset($USER->mycourses);
-
-$payeertx->success = 1;
-$DB->update_record('enrol_payeer_transactions', $payeertx);
-
-if (!$plugin_instance = $DB->get_record("enrol", array("id"=>$payeertx->instanceid, "status"=>0))) 
-{
-    die($_POST['m_orderid'] . '|error');
-}
 
 if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 {
+	$payeertx = $DB->get_record('enrol_payeer_transactions', array('id' =>required_param('m_orderid', PARAM_INT)));
+
+	$plugin_instance = $DB->get_record("enrol", array("id"=>$payeertx->instanceid, "status"=>0));
+
+	$plugin = enrol_get_plugin('payeer');
+		
 	$m_key = $plugin->get_config('payeer_key');
 	
 	$arHash = array(
@@ -67,9 +44,9 @@ if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 		"status				".$_POST["m_status"]."\n".
 		"sign				".$_POST["m_sign"]."\n\n";
 	
-	if ($plugin->get_config('payeer_log'))
+	if (!empty($plugin->get_config('payeer_log')))
 	{
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/payeer.log', $log_text, FILE_APPEND);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'] . $plugin->get_config('payeer_log'), $log_text, FILE_APPEND);
 	}
 
 	// проверка принадлежности ip списку доверенных ip
@@ -104,6 +81,15 @@ if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 
 	if ($_POST["m_sign"] == $sign_hash && $_POST['m_status'] == "success" && $valid_ip)
 	{
+		
+		
+
+
+		if (!$plugin_instance = $DB->get_record("enrol", array("id"=>$payeertx->instanceid, "status"=>0))) 
+		{
+			die($_POST['m_orderid'] . '|error');
+		}
+
 		if (!$payeertx = $DB->get_record('enrol_payeer_transactions', array('id' =>required_param('m_orderid', PARAM_INT)))) 
 		{
             die($_POST['m_orderid'] . '|error');
@@ -130,13 +116,13 @@ if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 		unset($USER->mycourses);
 		
 		$payeertx->success = 1;
-        if (!$DB->update_record('enrol_payeer_transactions', $payeertx)) 
+        if ($DB->update_record('enrol_payeer_transactions', $payeertx)) 
 		{
-            die('FAIL');
+			die($_POST['m_orderid'] . '|success');
         } 
 		else 
 		{
-			die($_POST['m_orderid'] . '|success');
+			die($_POST['m_orderid'] . '|error');
 		}
 	}
 	else 
@@ -144,6 +130,7 @@ if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 		$to = $plugin->get_config('payeer_emailerr');
 		$subject = "Payment error";
 		$message = "Failed to make the payment through the system Payeer for the following reasons:\n\n";
+		
 		if ($_POST["m_sign"] != $sign_hash)
 		{
 			$message .= " - Do not match the digital signature\n";
@@ -163,8 +150,8 @@ if (isset($_POST["m_operation_id"]) && isset($_POST["m_sign"]))
 		
 		$message .= "\n" . $log_text;
 		$headers = "From: no-reply@" . $_SERVER['HTTP_SERVER']."\r\nContent-type: text/plain; charset=utf-8 \r\n";
-		mail($to, $subject, $message, $headers);
-				
+		mail($to, $subject, $message, $headers);	
+		
 		die($_POST['m_orderid'] . '|error');
 	}
 }

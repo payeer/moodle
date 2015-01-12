@@ -17,7 +17,7 @@ $m_shop = $plugin->get_config('payeer_shop');
 $m_orderid = $plugin->begin_transaction($plugin_instance, $USER);
 $m_amount = number_format($plugin_instance->cost, 2, '.', '');
 $m_curr = $plugin_instance->currency;
-$m_desc = base64_encode('Payment order No. ' . $m_orderid);
+$m_desc = base64_encode($plugin->get_config('payeer_order_description'));
 $m_key = $plugin->get_config('payeer_key');
 
 $paymentsystem = explode('_', $plugin_instance->customchar1);

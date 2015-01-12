@@ -31,10 +31,8 @@ class enrol_payeer_edit_form extends moodleform
 
         $payeercurrencies = array(
 			'RUB' => 'RUB',
-            'CAD' => 'CAD',
             'EUR' => 'EUR',
-            'GBP' => 'GBP',
-            'USD' => 'USD',
+            'USD' => 'USD'
         );
 		
         $mform->addElement('select', 'currency', get_string('currency', 'enrol_payeer'), $payeercurrencies);
