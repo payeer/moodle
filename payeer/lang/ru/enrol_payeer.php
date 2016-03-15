@@ -23,7 +23,6 @@ $string['payeer_merchant_url'] = 'URL Мерчанта';
 $string['payeer_shop'] = 'Идентификатор магазина';
 $string['payeer_key'] = 'Секретный код';
 $string['payeer_log'] = 'Путь до файла для журнала оплат через Payeer (например, /payeer_orders.log)';
-$string['payeer_order_description'] = 'Комментарий к заказу от сайта';
 $string['payeer_emailerr'] = 'Email для ошибок оплаты';
 $string['payeer_ipfilter'] = 'IP фильтр';
 $string['assignrole'] = 'Назначить роль';

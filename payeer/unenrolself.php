@@ -1,15 +1,14 @@
 <?php
-
 require('../../config.php');
 
 $enrolid = required_param('enrolid', PARAM_INT);
 $confirm = optional_param('confirm', 0, PARAM_BOOL);
-
 $instance = $DB->get_record('enrol', array('id'=>$enrolid, 'enrol'=>'payeer'), '*', MUST_EXIST);
 $course = $DB->get_record('course', array('id'=>$instance->courseid), '*', MUST_EXIST);
 $context = context_course::instance($course->id, MUST_EXIST);
 
 require_login();
+
 if (!is_enrolled($context)) 
 {
     redirect(new moodle_url('/'));
@@ -40,3 +39,4 @@ $nourl = new moodle_url('/course/view.php', array('id'=>$course->id));
 $message = get_string('unenrolselfconfirm', 'enrol_payeer', format_string($course->fullname));
 echo $OUTPUT->confirm($message, $yesurl, $nourl);
 echo $OUTPUT->footer();
+?>

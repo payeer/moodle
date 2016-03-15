@@ -1,5 +1,4 @@
 <?php
-
 require("../../config.php");
 require_once("$CFG->dirroot/enrol/payeer/lib.php");
 
@@ -39,3 +38,4 @@ $a = new stdClass();
 $a->teacher = get_string('defaultcourseteacher');
 $a->fullname = $fullname;
 notice(get_string('paymentsorry', '', $a), $destination);
+?>

@@ -44,10 +44,11 @@ class enrol_payeer_plugin extends enrol_plugin
 	{
         if ($instance->enrol !== 'payeer') 
 		{
-             throw new coding_exception('Invalid enrol instance type!');
+			throw new coding_exception('Invalid enrol instance type!');
         }
 
         $context = context_course::instance($instance->courseid);
+		
         if (has_capability('enrol/payeer:config', $context)) 
 		{
             $managelink = new moodle_url('/enrol/payeer/edit.php', array('courseid'=>$instance->courseid, 'id'=>$instance->id));
@@ -59,9 +60,11 @@ class enrol_payeer_plugin extends enrol_plugin
 	{
         global $OUTPUT;
 
-        if ($instance->enrol !== 'payeer') {
+        if ($instance->enrol !== 'payeer')
+		{
             throw new coding_exception('invalid enrol instance!');
         }
+		
         $context = get_context_instance(CONTEXT_COURSE, $instance->courseid);
 
         $icons = array();
@@ -86,7 +89,6 @@ class enrol_payeer_plugin extends enrol_plugin
 
         return new moodle_url('/enrol/payeer/edit.php', array('courseid'=>$courseid));
     }
-
 
     function enrol_page_hook(stdClass $instance) 
 	{
@@ -126,7 +128,7 @@ class enrol_payeer_plugin extends enrol_plugin
             $teacher = false;
         }
 
-        if ( (float) $instance->cost <= 0 ) 
+        if ((float) $instance->cost <= 0) 
 		{
             $cost = (float) $this->get_config('cost');
         } 
@@ -137,7 +139,7 @@ class enrol_payeer_plugin extends enrol_plugin
 
         if (abs($cost) < 0.01) 
 		{
-            echo '<p>'.get_string('nocost', 'enrol_payeer').'</p>';
+            echo '<p>' . get_string('nocost', 'enrol_payeer').'</p>';
         } 
 		else 
 		{
@@ -151,9 +153,9 @@ class enrol_payeer_plugin extends enrol_plugin
 				{
                     $wwwroot = str_replace("http://", "https://", $CFG->wwwroot);
                 }
-                echo '<div class="mdl-align"><p>'.get_string('paymentrequired').'</p>';
-                echo '<p><b>'.get_string('cost').": $instance->currency $cost".'</b></p>';
-                echo '<p><a href="'.$wwwroot.'/login/">'.get_string('loginsite').'</a></p>';
+                echo '<div class="mdl-align"><p>' . get_string('paymentrequired') . '</p>';
+                echo '<p><b>' . get_string('cost') . ": $instance->currency $cost" . '</b></p>';
+                echo '<p><a href="' . $wwwroot . '/login/">' . get_string('loginsite') . '</a></p>';
                 echo '</div>';
             } 
 			else 
@@ -166,7 +168,7 @@ class enrol_payeer_plugin extends enrol_plugin
                 $useraddress     = $USER->address;
                 $usercity        = $USER->city;
                 $instancename    = $this->get_instance_name($instance);
-                include($CFG->dirroot.'/enrol/payeer/enrol.html');
+                include($CFG->dirroot . '/enrol/payeer/enrol.html');
             }
         }
 
@@ -192,7 +194,8 @@ class enrol_payeer_plugin extends enrol_plugin
             );
         }
 		
-        if ($merge and $instances = $DB->get_records('enrol', $merge, 'id')) {
+        if ($merge and $instances = $DB->get_records('enrol', $merge, 'id')) 
+		{
             $instance = reset($instances);
             $instanceid = $instance->id;
         } 
@@ -204,11 +207,13 @@ class enrol_payeer_plugin extends enrol_plugin
         $step->set_mapping('enrol', $oldid, $instanceid);
     }
 
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) 
+	{
         $this->enrol_user($instance, $userid, null, $data->timestart, $data->timeend, $data->status);
     }
 	
-    public function get_user_enrolment_actions(course_enrolment_manager $manager, $ue) {
+    public function get_user_enrolment_actions(course_enrolment_manager $manager, $ue)
+	{
         $actions = array();
         $context = $manager->get_context();
         $instance = $ue->enrolmentinstance;
