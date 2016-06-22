@@ -12,12 +12,12 @@ if (!$plugin_instance = $DB->get_record("enrol", array("id"=>$id, "status"=>0)))
 
 $plugin = enrol_get_plugin('payeer');
 
-$m_url = 'http:' . $plugin->get_config('payeer_merchant_url');
+$m_url = $plugin->get_config('payeer_merchant_url');
 $m_shop = $plugin->get_config('payeer_shop');
 $m_orderid = $plugin->begin_transaction($plugin_instance, $USER);
 $m_amount = number_format($plugin_instance->cost, 2, '.', '');
-$m_curr = $plugin_instance->currency;
-$m_desc = base64_encode($plugin->get_config('payeer_order_description'));
+$m_curr = $plugin_instance->currency == 'RUR' ? 'RUB' : $plugin_instance->currency;
+$m_desc = base64_encode('Payment №' . $m_orderid);
 $m_key = $plugin->get_config('payeer_key');
 
 $paymentsystem = explode('_', $plugin_instance->customchar1);

@@ -2,7 +2,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 class enrol_payeer_edit_form extends moodleform 
 {
@@ -13,20 +13,16 @@ class enrol_payeer_edit_form extends moodleform
         list($instance, $plugin, $context) = $this->_customdata;
 
         $mform->addElement('header', 'header', get_string('pluginname', 'enrol_payeer'));
-
         $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'));
-		
         $mform->setDefault('customchar1', $plugin->get_config('customchar1'));
+        $options = array(
+			ENROL_INSTANCE_ENABLED  => get_string('yes'),
+			ENROL_INSTANCE_DISABLED => get_string('no')
+		);
 
-        $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
-                         ENROL_INSTANCE_DISABLED => get_string('no'));
-						 
         $mform->addElement('select', 'status', get_string('status', 'enrol_payeer'), $options);
-		
         $mform->setDefault('status', $plugin->get_config('status'));
-
         $mform->addElement('text', 'cost', get_string('cost', 'enrol_payeer'), array('size'=>4));
-		
         $mform->setDefault('cost', $plugin->get_config('cost'));
 
         $payeercurrencies = array(
